@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Quiz game</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		.main{
+			height: 100vh;
+			width: 100vw;
+			align-content: center;
+			font-family:Arial, Helvetica, sans-serif;
+		}
+		.container{
+			background-color: #d1d1d1;
+			box-shadow: 0 0 50px rgb(255, 255, 255);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 2vh;
+			/* height: 50vh; */
+			width: 50vh;
+			margin: auto;
+			padding: 20px;
+			text-align: center;
+		}
+		select{
+			width: 100%;
+			height: 6vh;
+			border-radius: 8px;
+			text-align: center;
+			font-weight: bold;
+		}
+		.inputs{
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+		.submit{
+			width: 100%;
+			height: 6vh;
+			border-radius: 8px;
+			border: 1px solid #383838;
+			background-color: #10ff9b;
+			font-weight: bold;
+		}
+		.submit:hover{
+			color: #006d40;
+			background-color: white;
+		}
+
+
+																/* questions */
+		#questionPage{
+			background-color: #d1d1d1;
+			box-shadow: 0 0 50px rgb(255, 255, 255);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 2vh;
+			/* height: 50vh; */
+			width: 50vh;
+			margin: auto;
+			padding: 20px;
+		}
+		.top{
+			/* height: ; */
+			width: 100%;
+			text-align: center;
+			word-wrap: break-word;
+			font-weight: bold;
+		}
+		.options{
+			/* height: 50%; */
+			width: 100%;
+			background-color: #007041;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			padding: 10px;
+			margin: 20px 0;
+			border-radius: 20px;
+			/* font-weight: bold; */
+		}
+		.op{
+			display: flex;
+			flex-direction: row;
+			align-items: flex-start;
+			gap: 10px;
+			width: 100%;
+		}
+		label{
+			word-wrap: break-word;
+			width: 80%;
+		}
+		.button{
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			gap: 10px;
+		}
+		.button button,#playAgain{
+			width: 100%;
+			border-radius: 8px;
+			height: 6vh;
+			border-radius: 8px;
+			border: 1px solid #383838;
+			background-color: #109fff;
+			font-weight: bold;
+		}
+		
+		button:hover{
+		color: #109fff;
+		background-color: white;
+		}
+													/* Score */
+
+		#score{
+			background-color: #d1d1d1;
+			box-shadow: 0 0 50px #ffffff;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 2vh;
+			/* height: 50vh; */
+			width: 50vh;
+			margin: auto;
+			padding: 20px;
+		}
+		#playAgain{background-color: #14ff3b;}
+		#playAgain:hover{
+			background-color: white;
+			color: rgb(0, 97, 0);
+			box-shadow: 0 5px 5px #353535;
+		}
+								/* media */
+
+	@media(max-width:480px){
+		.container{
+			width: 85%;
+		}
+	}
+	</style>
+</head>
+<body bgcolor="black">
+<div class="main">
+	<div class="container" id="firstPage">
+		<h1>Start Your game</h1>
+			<h3>Select your mode</h3> 
+		<select id="mode">
+			<option selected>-select-</option>
+			<option>Easy</option>
+			<option>Medium</option>
+			<option>Hard</option>
+		</select>
+
+			<h3>Select the number of questions</h3> 
+		<select id="q"> 
+			<option selected>-select-</option>
+			<option>5</option>
+			<option>10</option>
+			<option>15</option>
+		</select>
+			<input type="submit" value="Submit" id="submit" class="submit">
+	</div>
+
+
+
+															<!-- questions -->
+	<div id="questionPage">
+		<h1 id="heading" style="text-align: center;">Question </h1>
+		<div id="time"style="text-align: center;">Time: </div>
+		<div class="top" id="question">What is the capital of india ?</div>
+
+		<div class="options">
+			<div class="op">A.<input type="radio" name="option" id="A"><label for="A" id="optionA">Kolkata</label> </div></li>
+			<div class="op">B.<input type="radio" name="option" id="B"><label for="B" id="optionB">Mumbai</label> </div></li>
+			<div class="op">C.<input type="radio" name="option" id="C"><label for="C" id="optionC">New Delhi</label> </div></li>
+			<div class="op">D.<input type="radio" name="option" id="D"><label for="D" id="optionD">Channai</label> </div></li>
+		</div>
+
+		<div class="button">
+			<!-- <button id="previous">Previous</button> -->
+			<input type="submit" value="Submit" class="submit" id="qsubmit">
+			<button id="next">Next</button>
+		</div>
+	</div>
+
+
+
+																	<!-- score -->
+
+	<div id="score">
+		<h1>Congratulation✨</h1>
+		<div>Your Score is : <span id="value"></span></div>
+		<button id="playAgain">Play again</button>
+	</div>
+</div>
+
+<script>
+	let firstPage=document.querySelector("#firstPage"),
+	score=document.querySelector("#score"),
+	questionPage=document.querySelector("#questionPage"),
+	qsubmit=document.querySelector('#qsubmit');
+	score.style.display="none";
+	questionPage.style.display="none"
+	
+document.querySelector("#submit").addEventListener("click",function(){
+	let a= document.getElementById("mode").value;
+	let b= document.getElementById("q").value;
+	let headiing=document.querySelector("#heading"),
+	question=document.querySelector("#question"),
+	opA=document.querySelector("#optionA"),
+	opB=document.querySelector("#optionB"),
+	opC=document.querySelector("#optionC"),
+	opD=document.querySelector("#optionD");
+	let time=b*10, countsub=1, right=0;
+	if(a=="-select-"||b=="-select-"){
+		alert("Please select all felds");
+	}
+	else{
+		firstPage.style.display="none";
+		questionPage.style.display="block"
+		
+		function removeselect(){
+			document.querySelector('input[id="A"]').checked=false;
+			document.querySelector('input[id="B"]').checked=false;
+			document.querySelector('input[id="C"]').checked=false;
+			document.querySelector('input[id="D"]').checked=false;
+		}
+
+													// timer
+	let timer=setInterval(()=>{
+	if(time==0){
+		clearInterval(timer);
+		questionPage.style.display="none"
+		document.querySelector("#value").innerText=right;
+		score.style.display="block";
+	}
+	else{
+		document.querySelector("#time").innerText=`Time: ${time}s`;
+		time--;
+	}
+},1000)
+
+													// play again
+document.querySelector("#playAgain").addEventListener("click",()=>{
+	window.location.reload();	
+})
+
+
+																// Easy
+	if(a=="Easy"){
+		// (countsub==1)?document.querySelector('#previous').style.cssText="display:none":"";
+		headiing.innerText="Question 1"
+		question.innerText="What is the capital of india ?"
+		opA.innerText="Kolkata"
+		opB.innerText="New Delhi"
+		opC.innerText="Mumbai"
+		opD.innerText="Channai"
+			
+									// submit
+		qsubmit.addEventListener("click",()=>{
+			questionPage.style.display="none"
+			score.style.display="block";
+			clearInterval(timer);
+				if(document.querySelector('input[id="B"]').checked){
+					right++;
+				}
+			document.querySelector("#value").innerText=right;
+		})
+
+													// Next
+	document.querySelector('#next').addEventListener("click",()=>{
+			if(countsub!=b){
+			(countsub==b-1)?document.querySelector('#next').style.cssText="display:none":"";
+			// (countsub==1)?document.querySelector('#previous').style.cssText="display:block":"";
+				switch (countsub){
+																				// case 1
+				case 1:
+					if(document.querySelector('input[id="B"]').checked){
+					right++;
+						console.log(right);
+					}
+					removeselect();
+					headiing.innerText="Question 2"
+					question.innerText="Which planet is known as the Red Planet ?"
+					opA.innerText="Earth"
+					opB.innerText="Venus"
+					opC.innerText="Mars"
+					opD.innerText="Jupiter"
+								// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none";
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 2
+				case 2:																
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+						console.log(right);
+
+					}
+					removeselect();
+					headiing.innerText="Question 3"
+					question.innerText="How many colors are there in a rainbow?"
+					opA.innerText="5"
+					opB.innerText="6"
+					opC.innerText="7"
+					opD.innerText="8"
+														// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 3
+				case 3:
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+						console.log(right);
+					}
+					removeselect();
+					headiing.innerText="Question 4"
+					question.innerText="Who wrote the national anthem of India?"
+					opA.innerText="Bankim Chandra Chatterjee"
+					opB.innerText="Rabindranath Tagore"
+					opC.innerText="Subhash Chandra Bose"
+					opD.innerText="Sarojini Naidu"
+														// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 4
+				case 4:
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+						console.log(right);
+					}
+					removeselect();
+					headiing.innerText="Question 5"
+					question.innerText="Which animal is known as the King of the Jungle?"
+					opA.innerText="Tiger"
+					opB.innerText="Leopard"
+					opC.innerText="Elephant"
+					opD.innerText="Lion"
+																	// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					clearInterval(timer);
+					if(document.querySelector('input[id="D"]').checked){
+						right++;
+						console.log(right);
+					}
+					document.querySelector("#value").innerText=right;
+					score.style.display="block";
+
+					})
+					break;
+																				// case 5
+				case 5:
+					if(document.querySelector('input[id="D"]').checked){
+						right++;
+						console.log(right);
+					}
+					removeselect();
+					headiing.innerText="Question 6"
+					question.innerText="How many days are there in a leap year?"
+					opA.innerText="365"
+					opB.innerText="366"
+					opC.innerText="364"
+					opD.innerText="360"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 6
+				case 6:
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 7"
+					question.innerText="Which gas do plants absorb from the air?"
+					opA.innerText="Oxygen"
+					opB.innerText="Hydrogen"
+					opC.innerText="Nitrogen"
+					opD.innerText="Carbon dioxide"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="D"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 7
+				case 7:
+					if(document.querySelector('input[id="D"]').checked){
+							right++;
+						}
+					removeselect();
+					headiing.innerText="Question 8"
+					question.innerText="What is the national flower of India?"
+					opA.innerText="Rose"
+					opB.innerText="Lotus"
+					opC.innerText="Sunflower"
+					opD.innerText="Jasmine"
+														// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 8
+				case 8:
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 9"
+					question.innerText="What is the boiling point of water?"
+					opA.innerText="90°C"
+					opB.innerText="100°C"
+					opC.innerText="110°C"
+					opD.innerText="80°C"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 9
+				case 9:
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 10"
+					question.innerText="Which is the largest mammal?"
+					opA.innerText="Elephant"
+					opB.innerText="Whale"
+					opC.innerText="Blue Whale"
+					opD.innerText="Giraffe"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 10
+				case 10:
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 11"
+					question.innerText="Which festival is known as the Festival of Lights?"
+					opA.innerText="Holi"
+					opB.innerText="Eid"
+					opC.innerText="Diwali"
+					opD.innerText="Christmas"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="C"]').checked0){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 11
+				case 11:
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 12"
+					question.innerText="How many sides does a triangle have?"
+					opA.innerText="2"
+					opB.innerText="3"
+					opC.innerText="4"
+					opD.innerText="5"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="B"]').checked1){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 12
+				case 12:
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 13"
+					question.innerText="Which is the fastest land animal?"
+					opA.innerText="Lion"
+					opB.innerText="Cheetah"
+					opC.innerText="Tiger"
+					opD.innerText="Horse"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="B"]').checked2){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 13
+				case 13:
+					if(document.querySelector('input[id="B"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 14"
+					question.innerText="What do you call a house made of ice?"
+					opA.innerText="Tent"
+					opB.innerText="Hut"
+					opC.innerText="Igloo"
+					opD.innerText="Dome"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="C"]').checked3){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					break;
+																				// case 14
+				case 14:
+					if(document.querySelector('input[id="C"]').checked){
+						right++;
+					}
+					removeselect();
+					headiing.innerText="Question 15"
+					question.innerText="What is H2O commonly known as?"
+					opA.innerText="Salt"
+					opB.innerText="Water"
+					opC.innerText="Hydrogen"
+					opD.innerText="Oxygen"
+																				// submit
+					qsubmit.addEventListener("click",()=>{
+					questionPage.style.display="none"
+					score.style.display="block";
+					clearInterval(timer);
+					if(document.querySelector('input[id="B"]').checked4){
+						right++;
+					}
+					document.querySelector("#value").innerText=right;
+					})
+					document.querySelector('#next').style.cssText="display:none"
+					break;
+				}
+				countsub++;
+				}
+			})
+		// 											// previous
+		// document.querySelector('#previous').addEventListener("click",()=>{
+		// 		// if(countsub!=b){
+		// 		countsub=countsub-1;
+		// 		(countsub==b-1)?document.querySelector('#next').style.cssText="display:none":"";
+		// 		(countsub==1)?document.querySelector('#previous').style.cssText="display:block":"";
+		// 		switch (countsub){
+		// 																			// case 1
+		// 			case 1:
+		// 				if(document.querySelector('input[id="B"]').checked){
+		// 				right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 2"
+		// 				question.innerText="Which planet is known as the Red Planet ?"
+		// 				opA.innerText="Earth"
+		// 				opB.innerText="Venus"
+		// 				opC.innerText="Mars"
+		// 				opD.innerText="Jupiter"
+		// 							// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none";
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="C"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 2
+		// 			case 2:																
+		// 				if(document.querySelector('input[id="C"]').checked){
+		// 					right++;
+		// 					console.log(right);
+
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 3"
+		// 				question.innerText="How many colors are there in a rainbow?"
+		// 				opA.innerText="5"
+		// 				opB.innerText="6"
+		// 				opC.innerText="7"
+		// 				opD.innerText="8"
+		// 													// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="C"]').checked&&countsub==2){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 3
+		// 			case 3:
+		// 				if(document.querySelector('input[id="C"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 4"
+		// 				question.innerText="Who wrote the national anthem of India?"
+		// 				opA.innerText="Bankim Chandra Chatterjee"
+		// 				opB.innerText="Rabindranath Tagore"
+		// 				opC.innerText="Subhash Chandra Bose"
+		// 				opD.innerText="Sarojini Naidu"
+		// 													// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="B"]').checked&&countsub==3){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 4
+		// 			case 4:
+		// 				if(document.querySelector('input[id="B"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 5"
+		// 				question.innerText="Which animal is known as the King of the Jungle?"
+		// 				opA.innerText="Tiger"
+		// 				opB.innerText="Leopard"
+		// 				opC.innerText="Elephant"
+		// 				opD.innerText="Lion"
+		// 																// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="D"]').checked&&countsub==4){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 5
+		// 			case 5:
+		// 				if(document.querySelector('input[id="D"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 6"
+		// 				question.innerText="How many days are there in a leap year?"
+		// 				opA.innerText="365"
+		// 				opB.innerText="366"
+		// 				opC.innerText="364"
+		// 				opD.innerText="360"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="B"]').checked&&countsub==5){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 6
+		// 			case 6:
+		// 				if(document.querySelector('input[id="B"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 7"
+		// 				question.innerText="Which gas do plants absorb from the air?"
+		// 				opA.innerText="Oxygen"
+		// 				opB.innerText="Hydrogen"
+		// 				opC.innerText="Nitrogen"
+		// 				opD.innerText="Carbon dioxide"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="D"]').checked&&countsub==6){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 7
+		// 			case 7:
+		// 				if(document.querySelector('input[id="D"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 8"
+		// 				question.innerText="What is the national flower of India?"
+		// 				opA.innerText="Rose"
+		// 				opB.innerText="Lotus"
+		// 				opC.innerText="Sunflower"
+		// 				opD.innerText="Jasmine"
+		// 													// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="B"]').checked&&countsub==7){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 8
+		// 			case 8:
+		// 				if(document.querySelector('input[id="B"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 9"
+		// 				question.innerText="What is the boiling point of water?"
+		// 				opA.innerText="90°C"
+		// 				opB.innerText="100°C"
+		// 				opC.innerText="110°C"
+		// 				opD.innerText="80°C"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="B"]').checked&&countsub==8){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 9
+		// 			case 9:
+		// 				if(document.querySelector('input[id="B"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 10"
+		// 				question.innerText="Which is the largest mammal?"
+		// 				opA.innerText="Elephant"
+		// 				opB.innerText="Whale"
+		// 				opC.innerText="Blue Whale"
+		// 				opD.innerText="Giraffe"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="C"]').checked&&countsub==9){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 10
+		// 			case 10:
+		// 				if(document.querySelector('input[id="C"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 11"
+		// 				question.innerText="Which festival is known as the Festival of Lights?"
+		// 				opA.innerText="Holi"
+		// 				opB.innerText="Eid"
+		// 				opC.innerText="Diwali"
+		// 				opD.innerText="Christmas"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="C"]').checked0){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 11
+		// 			case 11:
+		// 				if(document.querySelector('input[id="C"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 12"
+		// 				question.innerText="How many sides does a triangle have?"
+		// 				opA.innerText="2"
+		// 				opB.innerText="3"
+		// 				opC.innerText="4"
+		// 				opD.innerText="5"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="B"]').checked1){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 12
+		// 			case 12:
+		// 				if(document.querySelector('input[id="B"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 13"
+		// 				question.innerText="Which is the fastest land animal?"
+		// 				opA.innerText="Lion"
+		// 				opB.innerText="Cheetah"
+		// 				opC.innerText="Tiger"
+		// 				opD.innerText="Horse"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="B"]').checked2){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 13
+		// 			case 13:
+		// 				if(document.querySelector('input[id="B"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 14"
+		// 				question.innerText="What do you call a house made of ice?"
+		// 				opA.innerText="Tent"
+		// 				opB.innerText="Hut"
+		// 				opC.innerText="Igloo"
+		// 				opD.innerText="Dome"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="C"]').checked3){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				break;
+		// 																			// case 14
+		// 			case 14:
+		// 				if(document.querySelector('input[id="C"]').checked){
+		// 					right++;
+		// 				}
+		// 				document.querySelector('input[id="A"]').checked=false;
+		// 				document.querySelector('input[id="B"]').checked=false;
+		// 				document.querySelector('input[id="C"]').checked=false;
+		// 				document.querySelector('input[id="D"]').checked=false;
+		// 				headiing.innerText="Question 15"
+		// 				question.innerText="What is H2O commonly known as?"
+		// 				opA.innerText="Salt"
+		// 				opB.innerText="Water"
+		// 				opC.innerText="Hydrogen"
+		// 				opD.innerText="Oxygen"
+		// 																			// submit
+		// 				qsubmit.addEventListener("click",()=>{
+		// 				questionPage.style.display="none"
+		// 				score.style.display="block";
+		// 				clearInterval(timer);
+		// 				if(document.querySelector('input[id="B"]').checked4){
+		// 					right++;
+		// 				}
+		// 				document.querySelector("#value").innerText=right;
+		// 				})
+		// 				document.querySelector('#next').style.cssText="display:none"
+		// 				break;
+		// 			}
+		// 		// }
+		// 	})
+		}
+
+
+																// medium
+	else if(a=="Medium"){
+    headiing.innerText="Question 1"
+    question.innerText="Which country is called the Land of the Rising Sun?"
+    opA.innerText="Japan"
+    opB.innerText="China"
+    opC.innerText="India"
+    opD.innerText="Korea"
+
+    qsubmit.addEventListener("click",()=>{
+        questionPage.style.display="none";
+        score.style.display="block";
+        clearInterval(timer);
+        if(document.querySelector('input[id="A"]').checked){
+            right++;
+        }
+        document.querySelector("#value").innerText=right;
+    });
+
+    document.querySelector('#next').addEventListener("click",()=>{
+        if(countsub!=b){
+            (countsub==b-1)?document.querySelector('#next').style.cssText="display:none":"";
+            switch (countsub){
+                case 1:
+                    if(document.querySelector('input[id="A"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 2"
+                    question.innerText="Which element has the chemical symbol 'O'?"
+                    opA.innerText="Osmium"
+                    opB.innerText="Oxygen"
+                    opC.innerText="Gold"
+                    opD.innerText="Iron"
+                    qsubmit.addEventListener("click",()=>{
+                       questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 2:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 3"
+                    question.innerText="Who painted the Mona Lisa?"
+                    opA.innerText="Vincent Van Gogh"
+                    opB.innerText="Leonardo da Vinci"
+                    opC.innerText="Pablo Picasso"
+                    opD.innerText="Claude Monet"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 3:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 4"
+                    question.innerText="Which continent is the Sahara Desert located in?"
+                    opA.innerText="Asia"
+                    opB.innerText="Africa"
+                    opC.innerText="Australia"
+                    opD.innerText="Europe"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 4:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 5"
+                    question.innerText="What is the square root of 144?"
+                    opA.innerText="10"
+                    opB.innerText="11"
+                    opC.innerText="12"
+                    opD.innerText="13"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="C"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 5:
+                    if(document.querySelector('input[id="C"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 6"
+                    question.innerText="Which gas is used to fill balloons?"
+                    opA.innerText="Hydrogen"
+                    opB.innerText="Helium"
+                    opC.innerText="Oxygen"
+                    opD.innerText="Carbon Dioxide"
+                    qsubmit.addEventListener("click",()=>{
+                       questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 6:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 7"
+                    question.innerText="Who is the author of Harry Potter?"
+                    opA.innerText="J.K. Rowling"
+                    opB.innerText="Enid Blyton"
+                    opC.innerText="Mark Twain"
+                    opD.innerText="Charles Dickens"
+                    qsubmit.addEventListener("click",()=>{
+                       questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="A"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 7:
+                    if(document.querySelector('input[id="A"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 8"
+                    question.innerText="What is the currency of Germany?"
+                    opA.innerText="Euro"
+                    opB.innerText="Pound"
+                    opC.innerText="Ruble"
+                    opD.innerText="Franc"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="A"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 8:
+                    if(document.querySelector('input[id="A"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 9"
+                    question.innerText="What is the hardest natural substance?"
+                    opA.innerText="Iron"
+                    opB.innerText="Diamond"
+                    opC.innerText="Platinum"
+                    opD.innerText="Gold"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 9:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 10"
+                    question.innerText="Which blood group is known as the universal donor?"
+                    opA.innerText="O+"
+                    opB.innerText="O−"
+                    opC.innerText="AB+"
+                    opD.innerText="A−"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 10:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 11"
+                    question.innerText="Which instrument measures temperature?"
+                    opA.innerText="Barometer"
+                    opB.innerText="Thermometer"
+                    opC.innerText="Altimeter"
+                    opD.innerText="Hygrometer"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 11:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 12"
+                    question.innerText="What is the capital of Australia?"
+                    opA.innerText="Sydney"
+                    opB.innerText="Canberra"
+                    opC.innerText="Melbourne"
+                    opD.innerText="Perth"
+                    qsubmit.addEventListener("click",()=>{
+                       questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 12:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 13"
+                    question.innerText="Which language is used in computer programs?"
+                    opA.innerText="English"
+                    opB.innerText="Programming language"
+                    opC.innerText="Binary"
+                    opD.innerText="HTML"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 13:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 14"
+                    question.innerText="Which vitamin is known as the sunshine vitamin?"
+                    opA.innerText="Vitamin C"
+                    opB.innerText="Vitamin D"
+                    opC.innerText="Vitamin A"
+                    opD.innerText="Vitamin K"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    break;
+                case 14:
+                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    removeselect();
+                    headiing.innerText="Question 15"
+                    question.innerText="What is the chemical formula of salt?"
+                    opA.innerText="NaCl"
+                    opB.innerText="KCl"
+                    opC.innerText="Na2CO3"
+                    opD.innerText="CaCl2"
+                    qsubmit.addEventListener("click",()=>{
+                        questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="A"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+                    })
+                    document.querySelector('#next').style.cssText="display:none"
+                    break;
+            }
+            countsub++;
+        }
+    });
+}
+
+
+																	// Hard
+	else if(a=="Hard"){
+	headiing.innerText="Question 1"
+	question.innerText="What is the SI unit of electric current?"
+	opA.innerText="Ampere"       // ✅ Correct
+	opB.innerText="Volt"
+	opC.innerText="Ohm"
+	opD.innerText="Watt"
+											// submit
+		qsubmit.addEventListener("click",()=>{
+			questionPage.style.display="none"
+			score.style.display="block";
+			clearInterval(timer);
+				if(document.querySelector('input[id="A"]').checked){
+					right++;
+				}
+			document.querySelector("#value").innerText=right;
+		})
+
+	document.querySelector('#next').addEventListener("click",()=>{
+		if(countsub!=b){
+		(countsub==b-1)?document.querySelector('#next').style.cssText="display:none":"";
+			switch (countsub){
+
+// case 1
+case 1:
+	if(document.querySelector('input[id="A"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 2"
+	question.innerText="Which is the largest internal organ in the human body?"
+	opA.innerText="Heart"
+	opB.innerText="Brain"
+	opC.innerText="Lungs"
+	opD.innerText="Liver"        // ✅ Correct
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="D"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 2
+case 2:
+	if(document.querySelector('input[id="D"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 3"
+	question.innerText="Which planet has the longest day?"
+	opA.innerText="Jupiter"
+	opB.innerText="Mars"
+	opC.innerText="Earth"
+	opD.innerText="Venus"        // ✅ Correct
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="D"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 3
+case 3:
+	if(document.querySelector('input[id="D"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 4"
+	question.innerText="Who was the first Indian to win a Nobel Prize?"
+	opA.innerText="C.V. Raman"
+	opB.innerText="Rabindranath Tagore" // ✅ Correct
+	opC.innerText="Amartya Sen"
+	opD.innerText="Mother Teresa"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 4
+case 4:
+	if(document.querySelector('input[id="B"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 5"
+	question.innerText="Which country hosted the first modern Olympic Games?"
+	opA.innerText="USA"
+	opB.innerText="France"
+	opC.innerText="Greece"       // ✅ Correct
+	opD.innerText="Italy"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="C"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 5
+case 5:
+	if(document.querySelector('input[id="C"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 6"
+	question.innerText="What is the chemical formula of table salt?"
+	opA.innerText="KCl"
+	opB.innerText="HCl"
+	opC.innerText="NaCl"         // ✅ Correct
+	opD.innerText="NaCO₃"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="C"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 6
+case 6:
+	if(document.querySelector('input[id="C"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 7"
+	question.innerText="Which part of the cell contains genetic material?"
+	opA.innerText="Nucleus"      // ✅ Correct
+	opB.innerText="Ribosome"
+	opC.innerText="Cytoplasm"
+	opD.innerText="Mitochondria"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="A"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 7
+case 7:
+	if(document.querySelector('input[id="A"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 8"
+	question.innerText="Which Indian city is called the 'Silicon Valley of India'?"
+	opA.innerText="Chennai"
+	opB.innerText="Pune"
+	opC.innerText="Bengaluru"    // ✅ Correct
+	opD.innerText="Mumbai"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 8
+case 8:
+	if(document.querySelector('input[id="B"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 9"
+	question.innerText="What is the boiling point of water in Fahrenheit?"
+	opA.innerText="100°F"
+	opB.innerText="180°F"
+	opC.innerText="98°F"
+	opD.innerText="212°F"        // ✅ Correct
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="D"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 9
+case 9:
+	if(document.querySelector('input[id="D"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 10"
+	question.innerText="Which is the smallest continent by land area?"
+	opA.innerText="Australia"    // ✅ Correct
+	opB.innerText="Europe"
+	opC.innerText="Asia"
+	opD.innerText="Antarctica"
+	break;
+
+// case 10
+case 10:
+	if(document.querySelector('input[id="D"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 11"
+	question.innerText="Which gas is used in electric bulbs?"
+	opA.innerText="Carbon Monoxide"
+	opB.innerText="Hydrogen"
+	opC.innerText="Oxygen"
+	opD.innerText="Argon"        // ✅ Correct
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="D"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 11
+case 11:
+	if(document.querySelector('input[id="D"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 12"
+	question.innerText="Who is known as the 'Father of the Indian Constitution'?"
+	opA.innerText="Mahatma Gandhi"
+	opB.innerText="Sardar Patel"
+	opC.innerText="B.R. Ambedkar" // ✅ Correct
+	opD.innerText="Nehru"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="C"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 12
+case 12:
+	if(document.querySelector('input[id="C"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 13"
+	question.innerText="Which instrument is used to measure earthquakes?"
+	opA.innerText="Seismograph"  // ✅ Correct
+	opB.innerText="Altimeter"
+	opC.innerText="Barometer"
+	opD.innerText="Hygrometer"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="A"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 13
+case 13:
+	if(document.querySelector('input[id="A"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 14"
+	question.innerText="Which Mughal emperor built the Taj Mahal?"
+	opA.innerText="Akbar"
+	opB.innerText="Babur"
+	opC.innerText="Aurangzeb"
+	opD.innerText="Shah Jahan"   // ✅ Correct
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="D"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+// case 14
+case 14:
+	if(document.querySelector('input[id="D"]').checked){ right++; }
+	removeselect();
+	headiing.innerText="Question 15"
+	question.innerText="What is the largest three-digit prime number?"
+	opA.innerText="991"
+	opB.innerText="997"          // ✅ Correct
+	opC.innerText="999"
+	opD.innerText="993"
+							// submit
+		qsubmit.addEventListener("click",()=>{
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector('input[id="B"]').checked){
+			right++;
+		}
+		document.querySelector("#value").innerText=right;
+		})
+	break;
+
+			}
+		countsub++;
+		}
+	})
+}
+
+	}
+})
+
+														// score
+
+	
+</script>
+</body>
+</html>
