@@ -148,7 +148,7 @@
 		.container,#questionPage,#score{
 			width: 85%;
 		}
-		.container input,#questionPage{
+		.container input,#questionPage,#score{
 			font-size: 20px;
 		}
 	}
@@ -204,6 +204,7 @@
 
 	<div id="score">
 		<h1>Congratulation✨</h1>
+		<div>LEVEL: <span id="mode2"></span></div>
 		<div>Your Score is : <span id="value"></span></div>
 		<button id="playAgain">Play again</button>
 	</div>
@@ -233,6 +234,18 @@ document.querySelector("#submit").addEventListener("click",function(){
 	else{
 		firstPage.style.display="none";
 		questionPage.style.display="block"
+		qsubmit.style.display="none";
+													// qsubmit
+		function submit(r){
+		questionPage.style.display="none";
+		score.style.display="block";
+		clearInterval(timer);
+		if(document.querySelector(`input[id=${r}]`).checked==true){
+			right++;
+		}
+		document.querySelector("#mode2").innerText=a;
+		document.querySelector("#value").innerText=right;
+		}
 		
 		function removeselect(){
 			document.querySelector('input[id="A"]').checked=false;
@@ -270,27 +283,20 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 		opB.innerText="New Delhi"
 		opC.innerText="Mumbai"
 		opD.innerText="Channai"
-			
-									// submit
-		qsubmit.addEventListener("click",()=>{
-			questionPage.style.display="none"
-			score.style.display="block";
-			clearInterval(timer);
-				if(document.querySelector('input[id="B"]').checked){
-					right++;
-				}
-			document.querySelector("#value").innerText=right;
-		})
+		//qsubmit.addEventListener("click",()=>{submit("B");})
 
 													// Next
 	document.querySelector('#next').addEventListener("click",()=>{
 			if(countsub!=b){
-			(countsub==b-1)?document.querySelector('#next').style.cssText="display:none":"";
+			if(countsub==b-1){
+				document.querySelector('#next').style.cssText="display:none"
+				qsubmit.style.cssText="display:block"
+			}
 			// (countsub==1)?document.querySelector('#previous').style.cssText="display:block":"";
 				switch (countsub){
 																				// case 1
 				case 1:
-					if(document.querySelector('input[id="B"]').checked){
+					if(document.querySelector('input[id="B"]').checked==true){
 					right++;
 						console.log(right);
 					}
@@ -301,23 +307,12 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Venus"
 					opC.innerText="Mars"
 					opD.innerText="Jupiter"
-								// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none";
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="C"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 2
 				case 2:																
-					if(document.querySelector('input[id="C"]').checked){
+					if(document.querySelector('input[id="C"]').checked==true){
 						right++;
 						console.log(right);
-
 					}
 					removeselect();
 					headiing.innerText="Question 3"
@@ -326,16 +321,6 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="6"
 					opC.innerText="7"
 					opD.innerText="8"
-														// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="C"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 3
 				case 3:
@@ -350,20 +335,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Rabindranath Tagore"
 					opC.innerText="Subhash Chandra Bose"
 					opD.innerText="Sarojini Naidu"
-														// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="B"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 4
 				case 4:
-					if(document.querySelector('input[id="B"]').checked){
+					if(document.querySelector('input[id="B"]').checked==true){
 						right++;
 						console.log(right);
 					}
@@ -374,22 +349,11 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Leopard"
 					opC.innerText="Elephant"
 					opD.innerText="Lion"
-																	// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					clearInterval(timer);
-					if(document.querySelector('input[id="D"]').checked){
-						right++;
-						console.log(right);
-					}
-					document.querySelector("#value").innerText=right;
-					score.style.display="block";
-
-					})
+					qsubmit.addEventListener("click",()=>{submit("D");})
 					break;
 																				// case 5
 				case 5:
-					if(document.querySelector('input[id="D"]').checked){
+					if(document.querySelector('input[id="D"]').checked==true){
 						right++;
 						console.log(right);
 					}
@@ -400,20 +364,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="366"
 					opC.innerText="364"
 					opD.innerText="360"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="B"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 6
 				case 6:
-					if(document.querySelector('input[id="B"]').checked){
+					if(document.querySelector('input[id="B"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -423,20 +377,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Hydrogen"
 					opC.innerText="Nitrogen"
 					opD.innerText="Carbon dioxide"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="D"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 7
 				case 7:
-					if(document.querySelector('input[id="D"]').checked){
+					if(document.querySelector('input[id="D"]').checked==true){
 							right++;
 						}
 					removeselect();
@@ -446,20 +390,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Lotus"
 					opC.innerText="Sunflower"
 					opD.innerText="Jasmine"
-														// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="B"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 8
 				case 8:
-					if(document.querySelector('input[id="B"]').checked){
+					if(document.querySelector('input[id="B"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -469,20 +403,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="100°C"
 					opC.innerText="110°C"
 					opD.innerText="80°C"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="B"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 9
 				case 9:
-					if(document.querySelector('input[id="B"]').checked){
+					if(document.querySelector('input[id="B"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -492,20 +416,11 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Whale"
 					opC.innerText="Blue Whale"
 					opD.innerText="Giraffe"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="C"]').checked){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
+					qsubmit.addEventListener("click",()=>{submit("C");})
 					break;
 																				// case 10
 				case 10:
-					if(document.querySelector('input[id="C"]').checked){
+					if(document.querySelector('input[id="C"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -515,20 +430,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Eid"
 					opC.innerText="Diwali"
 					opD.innerText="Christmas"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="C"]').checked0){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 11
 				case 11:
-					if(document.querySelector('input[id="C"]').checked){
+					if(document.querySelector('input[id="C"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -538,20 +443,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="3"
 					opC.innerText="4"
 					opD.innerText="5"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="B"]').checked1){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 12
 				case 12:
-					if(document.querySelector('input[id="B"]').checked){
+					if(document.querySelector('input[id="B"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -561,20 +456,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Cheetah"
 					opC.innerText="Tiger"
 					opD.innerText="Horse"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="B"]').checked2){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 13
 				case 13:
-					if(document.querySelector('input[id="B"]').checked){
+					if(document.querySelector('input[id="B"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -584,20 +469,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Hut"
 					opC.innerText="Igloo"
 					opD.innerText="Dome"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="C"]').checked3){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
 					break;
 																				// case 14
 				case 14:
-					if(document.querySelector('input[id="C"]').checked){
+					if(document.querySelector('input[id="C"]').checked==true){
 						right++;
 					}
 					removeselect();
@@ -607,17 +482,7 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 					opB.innerText="Water"
 					opC.innerText="Hydrogen"
 					opD.innerText="Oxygen"
-																				// submit
-					qsubmit.addEventListener("click",()=>{
-					questionPage.style.display="none"
-					score.style.display="block";
-					clearInterval(timer);
-					if(document.querySelector('input[id="B"]').checked4){
-						right++;
-					}
-					document.querySelector("#value").innerText=right;
-					})
-					document.querySelector('#next').style.cssText="display:none"
+					qsubmit.addEventListener("click",()=>{submit("B");})
 					break;
 				}
 				countsub++;
@@ -646,7 +511,7 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 		// 				opC.innerText="Mars"
 		// 				opD.innerText="Jupiter"
 		// 							// submit
-		// 				qsubmit.addEventListener("click",()=>{
+		// 				//qsubmit.addEventListener("click",()=>{
 		// 				questionPage.style.display="none";
 		// 				score.style.display="block";
 		// 				clearInterval(timer);
@@ -1012,22 +877,16 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
     opC.innerText="India"
     opD.innerText="Korea"
 
-    qsubmit.addEventListener("click",()=>{
-        questionPage.style.display="none";
-        score.style.display="block";
-        clearInterval(timer);
-        if(document.querySelector('input[id="A"]').checked){
-            right++;
-        }
-        document.querySelector("#value").innerText=right;
-    });
-
     document.querySelector('#next').addEventListener("click",()=>{
         if(countsub!=b){
-            (countsub==b-1)?document.querySelector('#next').style.cssText="display:none":"";
+            if(countsub==b-1)
+			{
+				document.querySelector('#next').style.cssText="display:none"
+				qsubmit.style.cssText="display:block";
+			}
             switch (countsub){
                 case 1:
-                    if(document.querySelector('input[id="A"]').checked){ right++; }
+                    if(document.querySelector('input[id="A"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 2"
                     question.innerText="Which element has the chemical symbol 'O'?"
@@ -1035,18 +894,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Oxygen"
                     opC.innerText="Gold"
                     opD.innerText="Iron"
-                    qsubmit.addEventListener("click",()=>{
-                       questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 2:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 3"
                     question.innerText="Who painted the Mona Lisa?"
@@ -1054,18 +904,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Leonardo da Vinci"
                     opC.innerText="Pablo Picasso"
                     opD.innerText="Claude Monet"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 3:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 4"
                     question.innerText="Which continent is the Sahara Desert located in?"
@@ -1073,18 +914,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Africa"
                     opC.innerText="Australia"
                     opD.innerText="Europe"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 4:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 5"
                     question.innerText="What is the square root of 144?"
@@ -1092,18 +924,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="11"
                     opC.innerText="12"
                     opD.innerText="13"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="C"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
+					qsubmit.addEventListener("click",()=>{submit("C");})
                     break;
                 case 5:
-                    if(document.querySelector('input[id="C"]').checked){ right++; }
+                    if(document.querySelector('input[id="C"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 6"
                     question.innerText="Which gas is used to fill balloons?"
@@ -1111,18 +935,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Helium"
                     opC.innerText="Oxygen"
                     opD.innerText="Carbon Dioxide"
-                    qsubmit.addEventListener("click",()=>{
-                       questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 6:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 7"
                     question.innerText="Who is the author of Harry Potter?"
@@ -1130,18 +945,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Enid Blyton"
                     opC.innerText="Mark Twain"
                     opD.innerText="Charles Dickens"
-                    qsubmit.addEventListener("click",()=>{
-                       questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="A"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 7:
-                    if(document.querySelector('input[id="A"]').checked){ right++; }
+                    if(document.querySelector('input[id="A"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 8"
                     question.innerText="What is the currency of Germany?"
@@ -1149,18 +955,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Pound"
                     opC.innerText="Ruble"
                     opD.innerText="Franc"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="A"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 8:
-                    if(document.querySelector('input[id="A"]').checked){ right++; }
+                    if(document.querySelector('input[id="A"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 9"
                     question.innerText="What is the hardest natural substance?"
@@ -1168,18 +965,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Diamond"
                     opC.innerText="Platinum"
                     opD.innerText="Gold"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 9:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 10"
                     question.innerText="Which blood group is known as the universal donor?"
@@ -1187,18 +975,10 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="O−"
                     opC.innerText="AB+"
                     opD.innerText="A−"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
+					qsubmit.addEventListener("click",()=>{submit("B");})
                     break;
                 case 10:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 11"
                     question.innerText="Which instrument measures temperature?"
@@ -1206,18 +986,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Thermometer"
                     opC.innerText="Altimeter"
                     opD.innerText="Hygrometer"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 11:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 12"
                     question.innerText="What is the capital of Australia?"
@@ -1225,18 +996,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Canberra"
                     opC.innerText="Melbourne"
                     opD.innerText="Perth"
-                    qsubmit.addEventListener("click",()=>{
-                       questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 12:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 13"
                     question.innerText="Which language is used in computer programs?"
@@ -1244,18 +1006,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Programming language"
                     opC.innerText="Binary"
                     opD.innerText="HTML"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 13:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 14"
                     question.innerText="Which vitamin is known as the sunshine vitamin?"
@@ -1263,18 +1016,9 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="Vitamin D"
                     opC.innerText="Vitamin A"
                     opD.innerText="Vitamin K"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
                     break;
                 case 14:
-                    if(document.querySelector('input[id="B"]').checked){ right++; }
+                    if(document.querySelector('input[id="B"]').checked==true){ right++; }
                     removeselect();
                     headiing.innerText="Question 15"
                     question.innerText="What is the chemical formula of salt?"
@@ -1282,16 +1026,7 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
                     opB.innerText="KCl"
                     opC.innerText="Na2CO3"
                     opD.innerText="CaCl2"
-                    qsubmit.addEventListener("click",()=>{
-                        questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="A"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-                    })
-                    document.querySelector('#next').style.cssText="display:none"
+					qsubmit.addEventListener("click",()=>{submit("A");})
                     break;
             }
             countsub++;
@@ -1301,32 +1036,25 @@ document.querySelector("#playAgain").addEventListener("click",()=>{
 
 
 																	// Hard
-	else if(a=="Hard"){
+	else{
 	headiing.innerText="Question 1"
 	question.innerText="What is the SI unit of electric current?"
 	opA.innerText="Ampere"       // ✅ Correct
 	opB.innerText="Volt"
 	opC.innerText="Ohm"
 	opD.innerText="Watt"
-											// submit
-		qsubmit.addEventListener("click",()=>{
-			questionPage.style.display="none"
-			score.style.display="block";
-			clearInterval(timer);
-				if(document.querySelector('input[id="A"]').checked){
-					right++;
-				}
-			document.querySelector("#value").innerText=right;
-		})
-
 	document.querySelector('#next').addEventListener("click",()=>{
 		if(countsub!=b){
-		(countsub==b-1)?document.querySelector('#next').style.cssText="display:none":"";
+		if(countsub==b-1)
+			{
+				document.querySelector('#next').style.cssText="display:none"
+				qsubmit.style.cssText="display:block";
+			}
 			switch (countsub){
 
 // case 1
 case 1:
-	if(document.querySelector('input[id="A"]').checked){ right++; }
+	if(document.querySelector('input[id="A"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 2"
 	question.innerText="Which is the largest internal organ in the human body?"
@@ -1334,21 +1062,11 @@ case 1:
 	opB.innerText="Brain"
 	opC.innerText="Lungs"
 	opD.innerText="Liver"        // ✅ Correct
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="D"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 2
 case 2:
-	if(document.querySelector('input[id="D"]').checked){ right++; }
+	if(document.querySelector('input[id="D"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 3"
 	question.innerText="Which planet has the longest day?"
@@ -1356,21 +1074,11 @@ case 2:
 	opB.innerText="Mars"
 	opC.innerText="Earth"
 	opD.innerText="Venus"        // ✅ Correct
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="D"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 3
 case 3:
-	if(document.querySelector('input[id="D"]').checked){ right++; }
+	if(document.querySelector('input[id="D"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 4"
 	question.innerText="Who was the first Indian to win a Nobel Prize?"
@@ -1378,21 +1086,11 @@ case 3:
 	opB.innerText="Rabindranath Tagore" // ✅ Correct
 	opC.innerText="Amartya Sen"
 	opD.innerText="Mother Teresa"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 4
 case 4:
-	if(document.querySelector('input[id="B"]').checked){ right++; }
+	if(document.querySelector('input[id="B"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 5"
 	question.innerText="Which country hosted the first modern Olympic Games?"
@@ -1400,21 +1098,12 @@ case 4:
 	opB.innerText="France"
 	opC.innerText="Greece"       // ✅ Correct
 	opD.innerText="Italy"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="C"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
+	qsubmit.addEventListener("click",()=>{submit("C");})
 	break;
 
 // case 5
 case 5:
-	if(document.querySelector('input[id="C"]').checked){ right++; }
+	if(document.querySelector('input[id="C"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 6"
 	question.innerText="What is the chemical formula of table salt?"
@@ -1422,21 +1111,11 @@ case 5:
 	opB.innerText="HCl"
 	opC.innerText="NaCl"         // ✅ Correct
 	opD.innerText="NaCO₃"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="C"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 6
 case 6:
-	if(document.querySelector('input[id="C"]').checked){ right++; }
+	if(document.querySelector('input[id="C"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 7"
 	question.innerText="Which part of the cell contains genetic material?"
@@ -1444,21 +1123,11 @@ case 6:
 	opB.innerText="Ribosome"
 	opC.innerText="Cytoplasm"
 	opD.innerText="Mitochondria"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="A"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 7
 case 7:
-	if(document.querySelector('input[id="A"]').checked){ right++; }
+	if(document.querySelector('input[id="A"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 8"
 	question.innerText="Which Indian city is called the 'Silicon Valley of India'?"
@@ -1466,21 +1135,11 @@ case 7:
 	opB.innerText="Pune"
 	opC.innerText="Bengaluru"    // ✅ Correct
 	opD.innerText="Mumbai"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 8
 case 8:
-	if(document.querySelector('input[id="B"]').checked){ right++; }
+	if(document.querySelector('input[id="B"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 9"
 	question.innerText="What is the boiling point of water in Fahrenheit?"
@@ -1488,21 +1147,11 @@ case 8:
 	opB.innerText="180°F"
 	opC.innerText="98°F"
 	opD.innerText="212°F"        // ✅ Correct
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="D"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 9
 case 9:
-	if(document.querySelector('input[id="D"]').checked){ right++; }
+	if(document.querySelector('input[id="D"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 10"
 	question.innerText="Which is the smallest continent by land area?"
@@ -1510,11 +1159,12 @@ case 9:
 	opB.innerText="Europe"
 	opC.innerText="Asia"
 	opD.innerText="Antarctica"
+	qsubmit.addEventListener("click",()=>{submit("A");})
 	break;
 
 // case 10
 case 10:
-	if(document.querySelector('input[id="D"]').checked){ right++; }
+	if(document.querySelector('input[id="D"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 11"
 	question.innerText="Which gas is used in electric bulbs?"
@@ -1522,21 +1172,11 @@ case 10:
 	opB.innerText="Hydrogen"
 	opC.innerText="Oxygen"
 	opD.innerText="Argon"        // ✅ Correct
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="D"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 11
 case 11:
-	if(document.querySelector('input[id="D"]').checked){ right++; }
+	if(document.querySelector('input[id="D"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 12"
 	question.innerText="Who is known as the 'Father of the Indian Constitution'?"
@@ -1544,21 +1184,11 @@ case 11:
 	opB.innerText="Sardar Patel"
 	opC.innerText="B.R. Ambedkar" // ✅ Correct
 	opD.innerText="Nehru"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="C"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 12
 case 12:
-	if(document.querySelector('input[id="C"]').checked){ right++; }
+	if(document.querySelector('input[id="C"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 13"
 	question.innerText="Which instrument is used to measure earthquakes?"
@@ -1566,21 +1196,11 @@ case 12:
 	opB.innerText="Altimeter"
 	opC.innerText="Barometer"
 	opD.innerText="Hygrometer"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="A"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 13
 case 13:
-	if(document.querySelector('input[id="A"]').checked){ right++; }
+	if(document.querySelector('input[id="A"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 14"
 	question.innerText="Which Mughal emperor built the Taj Mahal?"
@@ -1588,21 +1208,11 @@ case 13:
 	opB.innerText="Babur"
 	opC.innerText="Aurangzeb"
 	opD.innerText="Shah Jahan"   // ✅ Correct
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="D"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
 	break;
 
 // case 14
 case 14:
-	if(document.querySelector('input[id="D"]').checked){ right++; }
+	if(document.querySelector('input[id="D"]').checked==true){ right++; }
 	removeselect();
 	headiing.innerText="Question 15"
 	question.innerText="What is the largest three-digit prime number?"
@@ -1610,30 +1220,11 @@ case 14:
 	opB.innerText="997"          // ✅ Correct
 	opC.innerText="999"
 	opD.innerText="993"
-							// submit
-		qsubmit.addEventListener("click",()=>{
-		questionPage.style.display="none";
-		score.style.display="block";
-		clearInterval(timer);
-		if(document.querySelector('input[id="B"]').checked){
-			right++;
-		}
-		document.querySelector("#value").innerText=right;
-		})
+	qsubmit.addEventListener("click",()=>{submit("B");})
 	break;
-
-			}
-		countsub++;
 		}
-	})
-}
-
-	}
-})
-
-														// score
-
-	
+		countsub++;
+	}})}}})	
 </script>
 </body>
 </html>
