@@ -96,6 +96,7 @@
 			align-items: flex-start;
 			gap: 10px;
 			width: 100%;
+			margin:5px 0;
 		}
 		label{
 			word-wrap: break-word;
@@ -181,14 +182,14 @@
 															<!-- questions -->
 	<div id="questionPage">
 		<h1 id="heading" style="text-align: center;">Question </h1>
-		<div id="time"style="text-align: center;">Time: </div>
-		<div class="top" id="question">What is the capital of india ?</div>
+		<div id="time"style="text-align: center;">Time: 00:00</div>
+		<div class="top" id="question">	</div>
 
 		<div class="options">
-			<div class="op">A.<input type="radio" name="option" id="A"><label for="A" id="optionA">Kolkata</label> </div></li>
-			<div class="op">B.<input type="radio" name="option" id="B"><label for="B" id="optionB">Mumbai</label> </div></li>
-			<div class="op">C.<input type="radio" name="option" id="C"><label for="C" id="optionC">New Delhi</label> </div></li>
-			<div class="op">D.<input type="radio" name="option" id="D"><label for="D" id="optionD">Channai</label> </div></li>
+			<div class="op">A.<input type="radio" name="option" id="A"><label for="A" id="optionA"></label> </div></li>
+			<div class="op">B.<input type="radio" name="option" id="B"><label for="B" id="optionB"></label> </div></li>
+			<div class="op">C.<input type="radio" name="option" id="C"><label for="C" id="optionC"></label> </div></li>
+			<div class="op">D.<input type="radio" name="option" id="D"><label for="D" id="optionD"></label> </div></li>
 		</div>
 
 		<div class="button">
@@ -204,8 +205,8 @@
 
 	<div id="score">
 		<h1>Congratulation✨</h1>
-		<div>LEVEL: <span id="mode2"></span></div>
-		<div>Your Score is : <span id="value"></span></div>
+		<div style="margin:10px 0;">LEVEL: <b id="mode2"></b></div>
+		<div style="margin:10px 0;">Your Score is : <b id="value"></b></div>
 		<button id="playAgain">Play again</button>
 	</div>
 </div>
@@ -259,11 +260,21 @@ document.querySelector("#submit").addEventListener("click",function(){
 	if(time==0){
 		clearInterval(timer);
 		questionPage.style.display="none"
+		document.querySelector("#mode2").innerText=a;
 		document.querySelector("#value").innerText=right;
 		score.style.display="block";
 	}
 	else{
-		document.querySelector("#time").innerText=`Time: ${time}s`;
+		if(time>=60){
+			let m=time/60;
+			let sec=time%60;
+			document.querySelector("#time").innerText=`Time: 0${parseInt(m)}:${parseInt(sec)}s`;
+		}
+		else{
+			time<10?document.querySelector("#time").innerText=`Time: 00:0${time}s`:document.querySelector("#time").innerText=`Time: 00:${time}s`
+			
+		}
+		
 		time--;
 	}
 },1000)
